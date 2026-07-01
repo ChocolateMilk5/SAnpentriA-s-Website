@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SAnpenteriA's Own Place</title>
+    <style>
+        /* Base page styling */
+        body { 
+            font-family: sans-serif; 
+            text-align: center; 
+            padding-top: 40px; 
+            padding-bottom: 50px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- THEME CORES --- */
+        body.light-mode {
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        /* Text colors adapting to theme */
+        .light-mode p.sub-text { color: #555; }
+        .dark-mode p.sub-text { color: #aaa; }
+        .light-mode p.desc-text { color: #666; }
+        .dark-mode p.desc-text { color: #aaa; }
+
+        /* --- SETTINGS PANEL STYLING --- */
+        .settings-panel {
+            background: rgba(128, 128, 128, 0.1);
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            display: inline-block;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .settings-control {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .settings-control select {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* --- BUTTONS STYLING --- */
+        /* Discord section button */
+        .discord-btn {
+            display: inline-block;
+            background-color: #5865F2; /* Discord Blurple */
+            color: white;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .discord-btn:hover {
+            background-color: #4752C4;
+        }
+
+        /* Base styles for favorite websites buttons */
+        .like-btn {
+            display: inline-block;
+            color: white;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        /* Custom brand button colors */
+        .yt-btn { background-color: #FF0000; } 
+        .yt-btn:hover { background-color: #CC0000; }
+
+        .bb-btn { background-color: #2b2b2b; } 
+        .bb-btn:hover { background-color: #1a1a1a; }
+
+        .gh-btn { background-color: #24292e; } 
+        .gh-btn:hover { background-color: #161b22; }
+
+        .ms-btn { background-color: #5ca626; } 
+        .ms-btn:hover { background-color: #467e1c; }
+
+        .sc-btn { background-color: #4D97FF; } 
+        .sc-btn:hover { background-color: #1A75FF; }
+
+        .tw-btn { background-color: #FF4C4C; } 
+        .tw-btn:hover { background-color: #E63333; }
+
+        /* --- ANIMATIONS CONTROL --- */
+        /* Only apply hover sizing transitions if animations are turned ON */
+        body.animations-on .discord-btn,
+        body.animations-on .like-btn {
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        body.animations-on .discord-btn:hover,
+        body.animations-on .like-btn:hover {
+            transform: scale(1.05); /* Pop-out hover effect */
+        }
+        
+        /* Smooth light/dark mode fading only when animations are ON */
+        body.animations-on {
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
+</head>
+<body class="light-mode animations-on"> <!-- Default fallback classes -->
+
+    <!-- Settings Dashboard Panel -->
+    <div class="settings-panel">
+        <h3 style="margin-top: 0; margin-bottom: 10px;">⚙️ Webpage Settings</h3>
+        
+        <div class="settings-control">
+            <label for="themeSelect">Theme Mode:</label>
+            <select id="themeSelect" onchange="updateSettings()">
+                <option value="light">LIGHT</option>
+                <option value="dark">DARK</option>
+            </select>
+        </div>
+
+        <div class="settings-control">
+            <label for="animSelect">Animation:</label>
+            <select id="animSelect" onchange="updateSettings()">
+                <option value="on">ON</option>
+                <option value="off">OFF</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <h1>Welcome to SAnpenteriA's Own Place!</h1>
+    <p class="sub-text">I created this on Windows.</p>
+
+    <!-- Discord Invitation Section -->
+    <p class="desc-text" style="font-size: 18px; margin-top: 30px; font-weight: bold;">
+        You can join my Discord here!
+    </p>
+    <a href="https://discord.gg" target="_blank" class="discord-btn">Join My Discord</a>
+
+    <!-- Favorite Websites Link Section -->
+    <h2 style="margin-top: 60px;">Websites i like</h2>
+    <p class="desc-text">Check out some of my favorite links below!</p>
+    
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+        <a href="https://youtube.com" target="_blank" class="like-btn yt-btn">YouTube</a>
+        <a href="https://dollchan.net" target="_blank" class="like-btn bb-btn">Bytebeat</a>
+        <a href="https://github.com" target="_blank" class="like-btn gh-btn">GitHub</a>
+        <a href="https://melonsandbox.com" target="_blank" class="like-btn ms-btn">Melon Sandbox</a>
+        <a href="https://mit.edu" target="_blank" class="like-btn sc-btn">Scratch</a>
+        <a href="https://turbowarp.org" target="_blank" class="like-btn tw-btn">TurboWarp</a>
+    </div>
+
+    <!-- JavaScript to Handle & Save Choices -->
+    <script>
+        // Load configurations from browser memory immediately when loading the page
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('themeMode') || 'light';
+            const savedAnim = localStorage.getItem('animMode') || 'on';
+
+            // Set dropdown menus to match local storage values
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('animSelect').value = savedAnim;
+
+            // Apply saved configuration directly to body classes
+            applySettings(savedTheme, savedAnim);
+        };
+
+        // Reads the selection menus and saves options
+        function updateSettings() {
+            const selectedTheme = document.getElementById('themeSelect').value;
+            const selectedAnim = document.getElementById('animSelect').value;
+
+            // Save selections into local memory storage
+            localStorage.setItem('themeMode', selectedTheme);
+            localStorage.setItem('animMode', selectedAnim);
+
+            applySettings(selectedTheme, selectedAnim);
+        }
+
+        // Switches classes on the body element to alter CSS behavior
+        function applySettings(theme, anim) {
+            const body = document.body;
+
+            // Update Theme Mode
+            if (theme === 'dark') {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+            }
+
+            // Update Animation Mode
+            if (anim === 'on') {
+                body.classList.add('animations-on');
+            } else {
+                body.classList.remove('animations-on');
+            }
+        }
+    </script>
+
+</body>
+</html>
